@@ -1,0 +1,54 @@
+{
+	"name": "AuthFlarum",
+	"version": "0.9",
+	"author": [
+		"Guillaume Kulakowski"
+	],
+	"url": "https://github.com/llaumgui/mw-auth-flarum",
+	"descriptionmsg": "authflarum-desc",
+	"type": "other",
+	"requires": {
+		"MediaWiki": ">= 1.35.0"
+	},
+	"license-name": "GPL-2.0-or-later",
+	"ConfigRegistry": {
+		"AuthFlarum": "GlobalVarConfig::newInstance"
+ 	},
+	"AutoloadNamespaces": {
+		"AuthFlarum\\": "src/"
+	},
+	"AuthManagerAutoConfig": {
+		"primaryauth": {
+			"AuthFlarumAuthenticationProvider": {
+				"class": "AuthFlarum\\FlarumAuthenticationProvider",
+				"args": []
+			}
+		}
+	},
+	"ServiceWiringFiles": [
+		"src/ServiceWiring.php"
+	],
+	"config": {
+		"AuthFlarumApiUri": {
+			"description": "URI ot Flarum API.",
+			"public": true,
+			"value": "http://localhost"
+		},
+		"AuthFlarumAutoCreate": {
+			"description": "Allow auto creation of MediaWiki account ?",
+			"public": true,
+			"value": true
+		},
+		"AuthFlarumAutoCreateMinPost": {
+			"description": "Need a minimum number of posts to allow auto creation of MediaWiki account.",
+			"public": true,
+			"value": 100
+		},
+		"AuthFlarumAutoCreateNeedGroup": {
+			"description": "Need Flarum user in a specific group to allow auto creation of MediaWiki account.",
+			"public": true,
+			"value": 0
+		}
+	},
+	"manifest_version": 2
+}
