@@ -28,6 +28,11 @@
 	"ServiceWiringFiles": [
 		"src/ServiceWiring.php"
 	],
+	"Hooks": {
+		"GetPreferences": "AuthFlarum\\Hooks::getPreferences",
+		"SpecialPage_initList": "AuthFlarum\\Hooks::specialPageInitList",
+		"AuthChangeFormFields": "AuthFlarum\\Hooks::onAuthChangeFormFields"
+	},
 	"config": {
 		"AuthFlarumApiUri": {
 			"description": "URI ot Flarum API.",

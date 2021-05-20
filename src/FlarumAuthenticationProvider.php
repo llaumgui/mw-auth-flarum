@@ -18,6 +18,7 @@ use MediaWiki\Auth\AuthManager;
 use MediaWiki\Auth\PasswordAuthenticationRequest;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserNameUtils;
+use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
  * The Autentication provider.
@@ -50,7 +51,7 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 	 * @return AuthenticationResponse Response of authentication
 	 */
 	public function beginPrimaryAccountCreation( $user, $creator, array $reqs ) {
-		return AuthenticationResponse::newFail( 'User creation is not allowed on the wiki. Pass by the forum.' );
+		return AuthenticationResponse::newAbstain();
 	}
 
 	/**
@@ -91,15 +92,6 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 	 * @return static
 	 */
 	public function providerAllowsAuthenticationDataChange( AuthenticationRequest $req, $checkData = true ) {
-		if ( $req->action === AuthManager::ACTION_REMOVE ) {
-			/*
-			 * The corresponding credentials should no longer result
-			 * in a successful login, but that cannot be implemented
-			 * here because there does not appear to be reliable way
-			 * to disable an account in Flarum. */
-			return \StatusValue::newGood( 'ignored' );
-		}
-
 		return \StatusValue::newGood();
 	}
 
@@ -120,7 +112,7 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 	 * @return static
 	 */
 	public function providerChangeAuthenticationData( AuthenticationRequest $req ) {
-		return AuthenticationResponse::newFail( 'User update is not allowed on the wiki. Pass by the forum.' );
+		return AuthenticationResponse::newAbstain();
 	}
 
 	/**
@@ -151,14 +143,16 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 							->get( 'AuthFlarumAutoCreate' );
 		if ( $autocreate && $authFlarumAutoCreate ) {
 			if ( !$this->flarumUser->exists() ) {
-				return \StatusValue::newFatal( "No corresponding Flarum user: cannot auto-create" );
+				return \StatusValue::newFatal( new \Message( 'authflarum-autocreate-fail' ) );
 			}
 			if ( !$this->flarumUser->hasCommentCount() ) {
-				return \StatusValue::newFatal( "Not enough post on forum to auto connect on wiki" );
+				return \StatusValue::newFatal( new \Message( 'authflarum-autocreate-no-enough' ) );
 			}
 
+			// Create MW user
 			$user->setEmail( $this->flarumUser->getEmail() );
 			$user->setRealName( $this->flarumUser->getUsername() );
+			$user->setEmailAuthenticationTimestamp( ConvertibleTimestamp::now() );
 		}
 
 		return \StatusValue::newGood();
