@@ -79,7 +79,7 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 				return AuthenticationResponse::newPass( $username );
 		}
 
-		return $this->failResponse( $req );
+		return AuthenticationResponse::newAbstain();
 	}
 
 	/**
@@ -96,7 +96,7 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 			 * The corresponding credentials should no longer result
 			 * in a successful login, but that cannot be implemented
 			 * here because there does not appear to be reliable way
-			 * to disable an account in WordPress. */
+			 * to disable an account in Flarum. */
 			return \StatusValue::newGood( 'ignored' );
 		}
 

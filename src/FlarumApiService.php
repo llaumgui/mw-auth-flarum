@@ -12,6 +12,7 @@
 namespace AuthFlarum;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use MediaWiki\MediaWikiServices;
 
 /**
@@ -60,12 +61,17 @@ class FlarumApiService {
 	 * @return int Flarum user Uid
 	 */
 	public function connect( string $username, string $password ) : int {
-		$response = $this->guzzleClient->request( 'POST', $this->flarumApiUri . '/api/token', [
-				'form_params' => [
-					'identification' => $username,
-					'password' => $password
-				]
-		] );
+		try {
+			$response = $this->guzzleClient->request( 'POST', $this->flarumApiUri . '/api/token', [
+					'form_params' => [
+						'identification' => $username,
+						'password' => $password
+					]
+			] );
+		} catch ( GuzzleClientException $e ) {
+			// Pass Guzzle exception to use AuthenticationResponse::newAbstain();
+			return 0;
+		}
 
 		if ( $response->getStatusCode() !== 200	) {
 			return 0;
