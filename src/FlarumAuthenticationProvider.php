@@ -14,7 +14,6 @@ namespace AuthFlarum;
 use MediaWiki\Auth\AbstractPasswordPrimaryAuthenticationProvider;
 use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
-use MediaWiki\Auth\AuthManager;
 use MediaWiki\Auth\PasswordAuthenticationRequest;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserNameUtils;
