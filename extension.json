@@ -34,13 +34,13 @@
 		"AuthChangeFormFields": "AuthFlarum\\Hooks::onAuthChangeFormFields"
 	},
 	"config": {
-		"AuthFlarumApiUri": {
-			"description": "URI ot Flarum API.",
+		"AuthFlarumUri": {
+			"description": "URI of your Flarum instance.",
 			"public": true,
 			"value": "http://localhost"
 		},
 		"AuthFlarumAutoCreate": {
-			"description": "Allow auto creation of MediaWiki account ?",
+			"description": "Allow auto creation of MediaWiki account from Flarum ?",
 			"public": true,
 			"value": true
 		},

@@ -49,7 +49,7 @@ class FlarumApiService {
 		$this->flarumApiUri = MediaWikiServices::getInstance()
 							->getConfigFactory()
 							->makeConfig( 'AuthFlarum' )
-							->get( 'AuthFlarumApiUri' );
+							->get( 'AuthFlarumUri' );
 		$this->guzzleClient = MediaWikiServices::getInstance()
 							->getService( 'HttpRequestFactory' )->createGuzzleClient();
 	}
