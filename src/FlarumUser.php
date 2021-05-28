@@ -11,6 +11,7 @@
 
 namespace AuthFlarum;
 
+use DateTime;
 use MediaWiki\MediaWikiServices;
 
 /**
@@ -29,10 +30,25 @@ class FlarumUser {
 	 */
 	private string $username = "";
 	/**
+	 * Flarum user displayName
+	 * @var string
+	 */
+	private string $displayName = "";
+	/**
 	 * Flarum user email
 	 * @var string
 	 */
 	private string $email = "";
+	/**
+	 * Flarum user isEmailConfirmed
+	 * @var ?bool
+	 */
+	private ?bool $isEmailConfirmed = null;
+	/**
+	 * Flarum user isEmailConfirmed
+	 * @var ?DateTime
+	 */
+	private ?DateTime $joinTime = null;
 	/**
 	 * Flarum user comment count
 	 * @var int
@@ -56,21 +72,24 @@ class FlarumUser {
 	 * Get all flarum user information
 	 * @return [type] [description]
 	 */
-	private function getUserInfo() {
+	private function getUserInfo() : void {
 		$userInfos = MediaWikiServices::getInstance()
 											->getService( 'FlarumApiService' )
 											->getUserInfo( $this->id );
 
 		$this->username = $userInfos['username'];
-		$this->commentCount = $userInfos['commentCount'];
+		$this->displayName = $userInfos['displayName'];
 		$this->email = $userInfos['email'];
+		$this->isEmailConfirmed = $userInfos['isEmailConfirmed'];
+		$this->joinTime = new DateTime( $userInfos['joinTime'] );
+		$this->commentCount = $userInfos['commentCount'];
 	}
 
 	/**
 	 * Check if user exists.
 	 * @return bool
 	 */
-	public function exists() {
+	public function exists() : bool {
 		if ( $this->id > 0 ) {
 			return true;
 		}
@@ -87,6 +106,28 @@ class FlarumUser {
 	}
 
 	/**
+	 * Get username
+	 * @return string User username
+	 */
+	public function getUsername() : string {
+		if ( $this->username === "" ) {
+			$this->getUserInfo();
+		}
+		return $this->username;
+	}
+
+	/**
+	 * Get displayName
+	 * @return string User displayName
+	 */
+	public function getDisplayName() : string {
+		if ( $this->displayName === "" ) {
+			$this->getUserInfo();
+		}
+		return $this->displayName;
+	}
+
+	/**
 	 * Get email
 	 * @return string User email
 	 */
@@ -98,14 +139,25 @@ class FlarumUser {
 	}
 
 	/**
-	 * Get username
-	 * @return string User username
+	 * Get isEmailConfirmed
+	 * @return string User isEmailConfirmed
 	 */
-	public function getUsername() : string {
-		if ( $this->username === "" ) {
+	public function isEmailConfirmed() : bool {
+		if ( $this->isEmailConfirmed === null ) {
 			$this->getUserInfo();
 		}
-		return $this->username;
+		return $this->isEmailConfirmed;
+	}
+
+	/**
+	 * Get joinTime
+	 * @return string User joinTime
+	 */
+	public function getJoinTime() : DateTime {
+		if ( $this->joinTime === null ) {
+			$this->getUserInfo();
+		}
+		return $this->joinTime;
 	}
 
 	/**

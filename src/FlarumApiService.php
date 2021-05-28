@@ -11,6 +11,7 @@
 
 namespace AuthFlarum;
 
+use FormatJson;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use MediaWiki\MediaWikiServices;
@@ -76,7 +77,7 @@ class FlarumApiService {
 		if ( $response->getStatusCode() !== 200	) {
 			return 0;
 		}
-		$json = \FormatJson::decode( $response->getBody(), true );
+		$json = FormatJson::decode( $response->getBody(), true );
 		$this->id = $json['userId'];
 		$this->token = $json['token'];
 
@@ -95,7 +96,7 @@ class FlarumApiService {
 				]
 		] );
 		if ( $response->getStatusCode() === 200	) {
-			$json = \FormatJson::decode( $response->getBody(), true );
+			$json = FormatJson::decode( $response->getBody(), true );
 
 			return $json['data']['attributes'];
 		}

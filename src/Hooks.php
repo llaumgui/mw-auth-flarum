@@ -11,6 +11,8 @@
 
 namespace AuthFlarum;
 
+use Message;
+
 /**
  * Hooks class.
  */
@@ -52,7 +54,7 @@ class Hooks {
 			'type' => 'info',
 			'raw' => true,
 			'cssclass' => 'mw-form-related-auth-flarum',
-			'default' => new \Message( 'authflarum-connection-form-label' ),
+			'default' => new Message( 'authflarum-connection-form-label' ),
 			'weight' => 230
 		];
 	}

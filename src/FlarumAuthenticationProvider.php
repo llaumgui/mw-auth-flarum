@@ -17,6 +17,8 @@ use MediaWiki\Auth\AuthenticationResponse;
 use MediaWiki\Auth\PasswordAuthenticationRequest;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserNameUtils;
+use Message;
+use StatusValue;
 use Wikimedia\Timestamp\ConvertibleTimestamp;
 
 /**
@@ -91,7 +93,7 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 	 * @return static
 	 */
 	public function providerAllowsAuthenticationDataChange( AuthenticationRequest $req, $checkData = true ) {
-		return \StatusValue::newGood();
+		return StatusValue::newFatal( new Message( 'authflarum-change-not-allowed' ) );
 	}
 
 	/**
@@ -142,18 +144,49 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 							->get( 'AuthFlarumAutoCreate' );
 		if ( $autocreate && $authFlarumAutoCreate ) {
 			if ( !$this->flarumUser->exists() ) {
-				return \StatusValue::newFatal( new \Message( 'authflarum-autocreate-fail' ) );
+				return StatusValue::newFatal( new Message( 'authflarum-autocreate-fail' ) );
 			}
 			if ( !$this->flarumUser->hasCommentCount() ) {
-				return \StatusValue::newFatal( new \Message( 'authflarum-autocreate-no-enough' ) );
+				return StatusValue::newFatal( new Message( 'authflarum-autocreate-no-enough' ) );
 			}
 
 			// Create MW user
 			$user->setEmail( $this->flarumUser->getEmail() );
 			$user->setRealName( $this->flarumUser->getUsername() );
 			$user->setEmailAuthenticationTimestamp( ConvertibleTimestamp::now() );
+			$user->saveSettings();
 		}
 
-		return \StatusValue::newGood();
+		return StatusValue::newGood();
+	}
+
+	/**
+	 * Update MediaWiki user from Flarum.
+	 *
+	 * @param User|null $user
+	 * @param AuthenticationResponse $response
+	 */
+	public function postAuthentication( $user, AuthenticationResponse $response ) : void {
+		if ( $user && $response->status === AuthenticationResponse::PASS
+							 && $this->flarumUser->exists()
+							 && $this->flarumUser->isEmailConfirmed()
+							 && $response->username == $user->getName() ) {
+			$userUpdated = false;
+
+			if ( $user->getEmail() != $this->flarumUser->getEmail() ) {
+				$userUpdated = true;
+				$user->setEmail( $this->flarumUser->getEmail() );
+				$user->setEmailAuthenticationTimestamp( $this->flarumUser->getJoinTime()->getTimestamp() );
+			}
+
+			if ( $user->getRealName() != $this->flarumUser->getDisplayName() ) {
+				$userUpdated = true;
+				$user->setRealName( $this->flarumUser->getDisplayName() );
+			}
+
+			if ( $userUpdated ) {
+				$user->saveSettings();
+			}
+		}
 	}
 }
