@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"llaumgui"
+		]
+	},
+	"authflarum-connection-form-label": "La connection à ce wiki passe par vos identifiants forum. Vous devez donc d'abord vous inscrir sur le forum avant de pouvoir vous connecter.",
+	"authflarum-change-not-allowed": "These changes are not allowed.",
+	"authflarum-autocreate-fail": "Failed to create an account from the forum.",
+	"authflarum-autocreate-no-enough": "You do not have enough forum post to login."
+}

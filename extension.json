@@ -33,6 +33,11 @@
 		"SpecialPage_initList": "AuthFlarum\\Hooks::specialPageInitList",
 		"AuthChangeFormFields": "AuthFlarum\\Hooks::onAuthChangeFormFields"
 	},
+	"MessagesDirs": {
+		"AuthFlarum": [
+			"i18n"
+		]
+	},
 	"config": {
 		"AuthFlarumUri": {
 			"description": "URI of your Flarum instance.",

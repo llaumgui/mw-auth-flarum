@@ -53,7 +53,7 @@ class Hooks {
 		$formDescriptor['authFlarum'] = [
 			'type' => 'info',
 			'raw' => true,
-			'cssclass' => 'mw-form-related-auth-flarum',
+			'cssclass' => 'warningbox mw-form-related-auth-flarum',
 			'default' => new Message( 'authflarum-connection-form-label' ),
 			'weight' => 230
 		];
