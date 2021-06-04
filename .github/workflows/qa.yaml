@@ -4,9 +4,13 @@ on:
   [push, pull_request]
 
 jobs:
-  tests:
 
+  ##############################################################################
+  # Tests job
+  #
+  tests:
     runs-on: ubuntu-latest
+    name: Test
 
     steps:
     - uses: actions/checkout@v2
@@ -33,3 +37,22 @@ jobs:
 
     - name: Run test suite
       run: composer run-script test
+
+
+  ##############################################################################
+  # Markdownlint job
+  #
+  test_markdownlint:
+    runs-on: ubuntu-latest
+    name: MarkdownLint
+
+    steps:
+
+    - name: Git checkout
+      uses: actions/checkout@v2
+
+    - name: markdownlint-cli
+      uses: nosborn/github-action-markdown-cli@v1.1.1
+      with:
+        files: "*.md"
+        config_file: ".markdownlint.yaml"
