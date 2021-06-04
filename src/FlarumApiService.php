@@ -98,7 +98,15 @@ class FlarumApiService {
 		if ( $response->getStatusCode() === 200	) {
 			$json = FormatJson::decode( $response->getBody(), true );
 
-			return $json['data']['attributes'];
+			$userGroups = [];
+			foreach ( $json['data']['relationships']['groups']['data'] as $group ) {
+				if ( $group['type'] == 'groups' ) {
+					$userGroups[] = $group['id'];
+				}
+			}
+			$userGroups = [ 'userGroups' => $userGroups ];
+
+			return array_merge( $json['data']['attributes'], $userGroups );
 		}
 		return null;
 	}
