@@ -1,8 +1,12 @@
 # AuthFlarum
 
-[![Tests](https://github.com/llaumgui/mw-auth-flarum/actions/workflows/qa.yaml/badge.svg)](https://github.com/llaumgui/mw-auth-flarum/actions/workflows/qa.yaml)<br />
-[![GitHub license](https://img.shields.io/github/license/llaumgui/mw-auth-flarum.svg)](https://github.com/llaumgui/mw-auth-flarum/blob/main/LICENSE) [![PHP version](https://badge.fury.io/ph/llaumgui%2Fmw-auth-flarum.svg)](https://packagist.org/packages/llaumgui/mw-auth-flarum)<br />
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/llaumgui/mw-auth-flarum.svg)](http://isitmaintained.com/project/llaumgui/mw-auth-flarum "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/llaumgui/mw-auth-flarum.svg)](http://isitmaintained.com/project/llaumgui/mw-auth-flarum "Percentage of issues still open")
+[![Author][ico-twitter]][link-twitter]
+[![Build Status][ico-ghactions]][link-ghactions]
+[![PHP Version][ico-php]][link-php]
+[![MediaWiki Version][ico-mediawiki]][link-mediawiki]
+[![Latest Version][ico-version]][link-packagist]
+
+[![Software License][ico-license]](LICENSE)
 
 Allows to connect to MediaWiki from an a ccount based on the [Flarum](https://flarum.org/) forum solution.
 
@@ -50,3 +54,15 @@ Example:
 ```php
 $wgAuthFlarumAutoCreateMinPost = 100;
 ```
+
+[ico-twitter]: https://img.shields.io/static/v1?label=Author&message=llaumgui&color=50ABF1&logo=twitter&style=flat-square
+[link-twitter]: https://twitter.com/llaumgui
+[ico-php]: https://img.shields.io/packagist/php-v/llaumgui/mw-auth-flarum?color=%234F5B93&logo=php&style=flat-square
+[link-php]: https://www.php.net
+[ico-mediawiki]: https://img.shields.io/static/v1?label=mediawiki&message=%E2%89%A51.36&color=cd1f44&logo=wikipedia&style=flat-square
+[link-mediawiki]: https://www.mediawiki.org/
+[ico-ghactions]: https://img.shields.io/github/workflow/status/llaumgui/mw-auth-flarum/Tests?style=flat-square&logo=github&label=Tests
+[link-ghactions]: https://github.com/llaumgui/mw-auth-flarum/actions
+[ico-version]: https://img.shields.io/packagist/v/llaumgui/mw-auth-flarum.svg?include_prereleases&label=Package%20version&style=flat-square&logo=packagist
+[link-packagist]: https://packagist.org/packages/llaumgui/mw-auth-flarum
+[ico-license]: https://img.shields.io/github/license/llaumgui/mw-auth-flarum?style=flat-square
