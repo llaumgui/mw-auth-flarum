@@ -4,7 +4,7 @@
 			"llaumgui"
 		]
 	},
-	"authflarum-connection-form-label": "La connection à ce wiki passe par vos identifiants forum. Vous devez donc d'abord vous inscrir sur le forum avant de pouvoir vous connecter.",
+	"authflarum-connection-form-label": "La connection à ce wiki passe par vos identifiants forum. Vous devez donc d'abord vous inscrire sur le forum avant de pouvoir vous connecter.",
 	"authflarum-change-not-allowed": "Ces changements ne sont pas autorisés.",
 	"authflarum-autocreate-fail": "Echec lors de la création de compte à partir du forum.",
 	"authflarum-autocreate-no-enough": "Vous n'avez pas assez de message sur le forum pour vous connecter."
