@@ -73,7 +73,7 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 		$username = $req->username;
 		$userNameUtils = MediaWikiServices::getInstance()->getUserNameUtils();
 		$canonicalUsername = $userNameUtils->getCanonical( $username, UserNameUtils::RIGOR_USABLE );
-		if ( $username === false or $canonicalUsername === false ) {
+		if ( $username === false || $canonicalUsername === false ) {
 			return AuthenticationResponse::newAbstain();
 		}
 
