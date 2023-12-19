@@ -61,7 +61,7 @@ class FlarumApiService {
 	 * @param string $password Flarum password
 	 * @return int Flarum user Uid
 	 */
-	public function connect( string $username, string $password ) : int {
+	public function connect( string $username, string $password ): int {
 		try {
 			$response = $this->guzzleClient->request( 'POST', $this->flarumApiUri . '/api/token', [
 					'form_params' => [
@@ -89,7 +89,7 @@ class FlarumApiService {
 	 * @param int $uid Flarum user uid
 	 * @return array|false Array Flarum user informations
 	 */
-	public function getUserInfo( int $uid ) : ?array {
+	public function getUserInfo( int $uid ): ?array {
 		$response = $this->guzzleClient->request( 'GET', $this->flarumApiUri . '/api/users/' . $uid, [
 				'headers' => [
 					'Authorization' => 'Token ' . $this->token
