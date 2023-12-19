@@ -56,11 +56,11 @@ Example:
 $wgAuthFlarumAutoCreateMinPost = 100;
 ```
 
-[ico-twitter]: https://img.shields.io/static/v1?label=Author&message=llaumgui&color=50ABF1&logo=twitter&style=flat-square
+[ico-twitter]: https://img.shields.io/static/v1?label=Author&message=llaumgui&color=000&logo=x&style=flat-square
 [link-twitter]: https://twitter.com/llaumgui
 [ico-mediawiki]: https://img.shields.io/static/v1?label=mediawiki&message=%E2%89%A51.36&color=cd1f44&logo=wikipedia&style=flat-square
 [link-mediawiki]: https://www.mediawiki.org/
-[ico-ghactions]: https://img.shields.io/github/actions/workflow/status/llaumgui/mw-auth-flarum/qa.yaml?branch=main&style=flat-square&logo=github&label=Tests
+[ico-ghactions]: https://img.shields.io/github/actions/workflow/status/llaumgui/mw-auth-flarum/devops.yaml?branch=main&style=flat-square&logo=github&label=Tests
 [link-ghactions]: https://github.com/llaumgui/mw-auth-flarum/actions
 [ico-version]: https://img.shields.io/packagist/v/llaumgui/mw-auth-flarum.svg?include_prereleases&label=Package%20version&style=flat-square&logo=packagist
 [link-packagist]: https://packagist.org/packages/llaumgui/mw-auth-flarum
