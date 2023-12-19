@@ -11,7 +11,7 @@ jobs:
   ##############################################################################
   # Tests job
   #
-  tests:
+  test_php:
     runs-on: ubuntu-latest
     name: Test
     strategy:
@@ -54,3 +54,28 @@ jobs:
       with:
         files: "*.md"
         config_file: ".markdownlint.yaml"
+
+  ##############################################################################
+  # SonarCloud job
+  #
+  test_sonar:
+    needs: [
+      test_php,
+      test_markdownlint
+    ]
+    runs-on: ubuntu-latest
+    name: SonarCloud analyse
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    - name: SonarCloud Scan
+      if: github.event_name != 'pull_request'
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.verbose=true
