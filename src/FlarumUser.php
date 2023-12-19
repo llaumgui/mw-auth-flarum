@@ -70,9 +70,8 @@ class FlarumUser {
 
 	/**
 	 * Get all flarum user information
-	 * @return [type] [description]
 	 */
-	private function getUserInfo() : void {
+	private function getUserInfo(): void {
 		$userInfos = MediaWikiServices::getInstance()
 											->getService( 'FlarumApiService' )
 											->getUserInfo( $this->id );
@@ -89,7 +88,7 @@ class FlarumUser {
 	 * Check if user exists.
 	 * @return bool
 	 */
-	public function exists() : bool {
+	public function exists(): bool {
 		if ( $this->id > 0 ) {
 			return true;
 		}
@@ -101,7 +100,7 @@ class FlarumUser {
 	 *
 	 * @return int flarum user Uid
 	 */
-	public function getId() : int {
+	public function getId(): int {
 		return $this->id;
 	}
 
@@ -109,7 +108,7 @@ class FlarumUser {
 	 * Get username
 	 * @return string User username
 	 */
-	public function getUsername() : string {
+	public function getUsername(): string {
 		if ( $this->username === "" ) {
 			$this->getUserInfo();
 		}
@@ -120,7 +119,7 @@ class FlarumUser {
 	 * Get displayName
 	 * @return string User displayName
 	 */
-	public function getDisplayName() : string {
+	public function getDisplayName(): string {
 		if ( $this->displayName === "" ) {
 			$this->getUserInfo();
 		}
@@ -131,7 +130,7 @@ class FlarumUser {
 	 * Get email
 	 * @return string User email
 	 */
-	public function getEmail() : string {
+	public function getEmail(): string {
 		if ( $this->email === "" ) {
 			$this->getUserInfo();
 		}
@@ -142,7 +141,7 @@ class FlarumUser {
 	 * Get isEmailConfirmed
 	 * @return string User isEmailConfirmed
 	 */
-	public function isEmailConfirmed() : bool {
+	public function isEmailConfirmed(): bool {
 		if ( $this->isEmailConfirmed === null ) {
 			$this->getUserInfo();
 		}
@@ -153,7 +152,7 @@ class FlarumUser {
 	 * Get joinTime
 	 * @return string User joinTime
 	 */
-	public function getJoinTime() : DateTime {
+	public function getJoinTime(): DateTime {
 		if ( $this->joinTime === null ) {
 			$this->getUserInfo();
 		}
@@ -164,7 +163,7 @@ class FlarumUser {
 	 * flarum use have needed post ?
 	 * @return bool
 	 */
-	public function hasCommentCount() : string {
+	public function hasCommentCount(): string {
 		if ( $this->commentCount === 0 ) {
 			$this->getUserInfo();
 		}

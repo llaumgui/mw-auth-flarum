@@ -14,7 +14,7 @@ use MediaWiki\MediaWikiServices;
 
 /** @phpcs-require-sorted-array */
 return [
-	'FlarumApiService' => function ( MediaWikiServices $services ) : FlarumApiService {
+	'FlarumApiService' => static function ( MediaWikiServices $services ): FlarumApiService {
 		return new FlarumApiService();
 	}
 ];
