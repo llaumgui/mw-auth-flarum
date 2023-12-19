@@ -70,7 +70,6 @@ class FlarumUser {
 
 	/**
 	 * Get all flarum user information
-	 * @return [type] [description]
 	 */
 	private function getUserInfo() : void {
 		$userInfos = MediaWikiServices::getInstance()
