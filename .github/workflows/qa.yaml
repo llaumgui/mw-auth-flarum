@@ -13,7 +13,7 @@ jobs:
     name: Test
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup PHP with specific version of PECL extension
       uses: shivammathur/setup-php@v2
@@ -49,7 +49,7 @@ jobs:
     steps:
 
     - name: Git checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: markdownlint-cli
       uses: nosborn/github-action-markdown-cli@v1.1.1
