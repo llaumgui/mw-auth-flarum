@@ -168,7 +168,7 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 	 * @param User|null $user
 	 * @param AuthenticationResponse $response
 	 */
-	public function postAuthentication( $user, AuthenticationResponse $response ) : void {
+	public function postAuthentication( $user, AuthenticationResponse $response ): void {
 		if ( $user && $response->status === AuthenticationResponse::PASS
 							 && $this->flarumUser->exists()
 							 && $this->flarumUser->isEmailConfirmed()
