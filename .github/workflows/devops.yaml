@@ -3,26 +3,30 @@ name: Tests
 on:
   [push, pull_request]
 
+env:
+  phpLastVersion: '8.2'
+
 jobs:
 
   ##############################################################################
   # Tests job
   #
-  tests:
+  test_php:
     runs-on: ubuntu-latest
     name: Test
-
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.1', '8.2', '8.3']
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup PHP with specific version of PECL extension
+    - name: Git checkout
+      uses: actions/checkout@v4
+    - name: Setup PHP ${{ matrix.php-version }} with PECL extension
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4'
-
+        php-version: ${{ matrix.php-version }}
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
-
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
@@ -31,13 +35,10 @@ jobs:
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-
-
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
-
     - name: Run test suite
       run: composer run-script test
-
 
   ##############################################################################
   # Markdownlint job
@@ -45,14 +46,36 @@ jobs:
   test_markdownlint:
     runs-on: ubuntu-latest
     name: MarkdownLint
-
     steps:
-
     - name: Git checkout
       uses: actions/checkout@v4
-
     - name: markdownlint-cli
       uses: nosborn/github-action-markdown-cli@v3.3.0
       with:
         files: "*.md"
         config_file: ".markdownlint.yaml"
+
+  ##############################################################################
+  # SonarCloud job
+  #
+  test_sonar:
+    needs: [
+      test_php,
+      test_markdownlint
+    ]
+    runs-on: ubuntu-latest
+    name: SonarCloud analyse
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    - name: SonarCloud Scan
+      if: github.event_name != 'pull_request'
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.verbose=true
