@@ -61,6 +61,7 @@ jobs:
       test_php,
       test_markdownlint
     ]
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     name: SonarCloud analyse
     steps:
@@ -69,7 +70,6 @@ jobs:
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
     - name: SonarCloud Scan
-      if: ${{ github.event_name != 'pull_request' }}
       uses: sonarsource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
