@@ -1,6 +1,5 @@
 # AuthFlarum
 
-[![Author][ico-twitter]][link-twitter]
 [![Software License][ico-license]](LICENSE)
 [![Build Status][ico-ghactions]][link-ghactions]
 [![MediaWiki Version][ico-mediawiki]][link-mediawiki]
@@ -60,8 +59,6 @@ Example:
 $wgAuthFlarumAutoCreateMinPost = 100;
 ```
 
-[ico-twitter]: https://img.shields.io/static/v1?label=Author&message=llaumgui&color=000&logo=x&style=flat-square
-[link-twitter]: https://twitter.com/llaumgui
 [ico-mediawiki]: https://img.shields.io/static/v1?label=mediawiki&message=%E2%89%A51.36&color=cd1f44&logo=wikipedia&style=flat-square
 [link-mediawiki]: https://www.mediawiki.org/
 [ico-ghactions]: https://img.shields.io/github/actions/workflow/status/llaumgui/mw-auth-flarum/devops.yaml?branch=main&style=flat-square&logo=github&label=Tests
