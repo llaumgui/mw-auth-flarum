@@ -1,5 +1,6 @@
 # AuthFlarum
 
+[![Author][ico-bluesky]][link-bluesky]
 [![Software License][ico-license]](LICENSE)
 [![Build Status][ico-ghactions]][link-ghactions]
 [![MediaWiki Version][ico-mediawiki]][link-mediawiki]
@@ -59,6 +60,8 @@ Example:
 $wgAuthFlarumAutoCreateMinPost = 100;
 ```
 
+[ico-bluesky]: https://img.shields.io/static/v1?label=Author&message=llaumgui&color=208bfe&logo=bluesky&style=flat-square
+[link-bluesky]: https://bsky.app/profile/llaumgui.kulakowski.fr
 [ico-mediawiki]: https://img.shields.io/static/v1?label=mediawiki&message=%E2%89%A51.36&color=cd1f44&logo=wikipedia&style=flat-square
 [link-mediawiki]: https://www.mediawiki.org/
 [ico-ghactions]: https://img.shields.io/github/actions/workflow/status/llaumgui/mw-auth-flarum/devops.yaml?branch=main&style=flat-square&logo=github&label=Tests
