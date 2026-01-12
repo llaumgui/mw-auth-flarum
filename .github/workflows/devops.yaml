@@ -2,7 +2,7 @@ name: Tests
 on:
   [push, pull_request]
 env:
-  phpLastVersion: '8.2'
+  phpLastVersion: '8.4'
 
 jobs:
 
@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1', '8.2', '8.3']
+        php-version: ['8.2', '8.3', '8.4', '8.5']
     steps:
     - name: Git checkout
       uses: actions/checkout@v5
