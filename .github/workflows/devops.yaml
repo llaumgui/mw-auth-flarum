@@ -18,7 +18,7 @@ jobs:
         php-version: ['8.2', '8.3', '8.4', '8.5']
     steps:
     - name: Git checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     - name: Setup PHP ${{ matrix.php-version }} with PECL extension
       uses: shivammathur/setup-php@v2
       with:
@@ -46,7 +46,7 @@ jobs:
     name: MarkdownLint
     steps:
     - name: Git checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     - name: markdownlint-cli
       uses: nosborn/github-action-markdown-cli@v3.5.0
       with:
@@ -66,7 +66,7 @@ jobs:
     name: SonarCloud analyse
     steps:
     - name: Git checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
     - name: SonarQube Scan
