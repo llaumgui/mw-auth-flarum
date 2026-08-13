@@ -15,16 +15,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.2', '8.3', '8.4', '8.5']
+        php-version: ['8.3', '8.4', '8.5']
     steps:
+
     - name: Git checkout
       uses: actions/checkout@v7
+
+    # Setup PHP
     - name: Setup PHP ${{ matrix.php-version }} with PECL extension
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v6
@@ -33,10 +34,16 @@ jobs:
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-
+
+    # Instal & run tasks
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
     - name: Run test suite
       run: composer run-script test
+
+
 
   ##############################################################################
   # Markdownlint job
@@ -47,11 +54,15 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v7
+
+    # Run markdownlint-cli
     - name: markdownlint-cli
       uses: nosborn/github-action-markdown-cli@v3.5.0
       with:
         files: "*.md"
         config_file: ".markdownlint.yaml"
+
+
 
   ##############################################################################
   # SonarCloud job
@@ -68,12 +79,12 @@ jobs:
     - name: Git checkout
       uses: actions/checkout@v7
       with:
-        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+        fetch-depth: 0 # Disabling shallow clones is recommended for improving the relevancy of reporting
+    # https://docs.sonarsource.com/sonarqube/latest/project-administration/analysis-scope/#sonarqube-respects-ignored-files
+    - run: rm .gitignore
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v8.2.1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #with:
-      #  args: >
-      #    -Dsonar.verbose=true
+

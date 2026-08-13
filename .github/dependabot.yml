@@ -4,15 +4,22 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+
 updates:
   # Maintain dependencies for Composer
   - package-ecosystem: "composer"
     directory: "/"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "⬆️ [PHP] "
+
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "⬆️ [Actions] "
+
