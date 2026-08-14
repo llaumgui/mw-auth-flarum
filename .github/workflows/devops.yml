@@ -33,7 +33,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
-    # Instal & run tasks
+    # Install & run tasks
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
     - name: Install dependencies
