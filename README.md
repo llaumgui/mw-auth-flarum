@@ -11,12 +11,29 @@
 [![Reliability Rating][ico-sonarcloud-reliability]][link-sonarcloud-reliability]
 [![Security Rating][ico-sonarcloud-security]][link-sonarcloud-security]
 
-Allows to connect to MediaWiki from an a ccount based on the [Flarum](https://flarum.org/) forum solution.
+Authenticates MediaWiki users against a [Flarum](https://flarum.org/) account. It supports Flarum 1 and Flarum 2, optional account creation, a minimum post count for new accounts, and optional Flarum 2FA tokens.
+
+## Requirements
+
+- MediaWiki 1.43 or newer
+- PHP 8.3 or newer
+- A reachable Flarum instance
+- Flarum API access
+
+Authentication data is provided by Flarum. Password changes and property changes must be performed in Flarum rather than MediaWiki.
 
 ## Installation
 
-1. Put code in extensions/AuthFlarum.
-2. Enable extension :
+### From Git
+
+Clone the extension into MediaWiki's `extensions` directory:
+
+```bash
+cd extensions
+git clone https://github.com/llaumgui/mw-auth-flarum.git AuthFlarum
+```
+
+Then load the extension from `LocalSettings.php`:
 
 ```php
 wfLoadExtension( 'AuthFlarum' );
@@ -26,43 +43,77 @@ wfLoadExtension( 'AuthFlarum' );
 
 ### `$wgAuthFlarumUri`
 
-URI of your Flarum instance.
-
-Example:
+The base URI of the Flarum instance.
 
 ```php
-$wgAuthFlarumUri = 'http://localhost';
+$wgAuthFlarumUri = 'https://forum.example.org';
 ```
 
 ### `$wgAuthFlarumAutoCreate`
 
-Allow auto creation of MediaWiki account from Flarum ? Becarrefull, also Need
+Controls whether a successful Flarum login automatically creates the corresponding MediaWiki account. The default is `true`.
+
+To allow account creation while preventing users from creating MediaWiki accounts through the normal registration flow:
 
 ```php
 $wgGroupPermissions['*']['autocreateaccount'] = true;
 $wgGroupPermissions['*']['createaccount'] = false;
 $wgGroupPermissions['sysop']['createaccount'] = false;
-```
-
-Example:
-
-```php
 $wgAuthFlarumAutoCreate = true;
 ```
 
 ### `$wgAuthFlarumAutoCreateMinPost`
 
-Need a minimum number of posts to allow auto creation of MediaWiki account.
-
-Example:
+Sets the minimum number of Flarum comments required before MediaWiki can create an account. The default is `100`.
 
 ```php
 $wgAuthFlarumAutoCreateMinPost = 100;
 ```
 
+Set this to `0` to allow account creation without a minimum comment count.
+
+### `$wgAuthFlarumEnable2FA`
+
+Adds an optional two-factor authentication field to the login form.
+
+```php
+$wgAuthFlarumEnable2FA = true;
+```
+
+Enable this setting only when 2FA is configured on the Flarum instance. When enabled, users with 2FA configured must enter their Flarum 2FA token during login.
+
+## Example configuration
+
+```php
+wfLoadExtension( 'AuthFlarum' );
+
+$wgAuthFlarumUri = 'https://forum.example.org';
+$wgAuthFlarumAutoCreate = true;
+$wgAuthFlarumAutoCreateMinPost = 50;
+$wgAuthFlarumEnable2FA = true;
+
+$wgGroupPermissions['*']['autocreateaccount'] = true;
+$wgGroupPermissions['*']['createaccount'] = false;
+$wgGroupPermissions['sysop']['createaccount'] = false;
+```
+
+## Development
+
+Install development dependencies and run the project checks:
+
+```bash
+composer install
+composer test
+composer phan
+```
+
+## License
+
+AuthFlarum is licensed under the [GNU General Public License v2.0 or later](LICENSE).
+
 [ico-bluesky]: https://img.shields.io/static/v1?label=Author&message=llaumgui&color=208bfe&logo=bluesky&style=flat-square
 [link-bluesky]: https://bsky.app/profile/llaumgui.kulakowski.fr
-[ico-mediawiki]: https://img.shields.io/static/v1?label=mediawiki&message=%E2%89%A51.36&color=cd1f44&logo=wikipedia&style=flat-square
+[ico-mediawiki]: https://img.shields.io/static/v1?label=mediawiki&message=%E2%89%A51.43.0&color=cd1f44&logo=wikipedia&style=flat-square
 [link-mediawiki]: https://www.mediawiki.org/
 [ico-ghactions]: https://img.shields.io/github/actions/workflow/status/llaumgui/mw-auth-flarum/devops.yml?branch=main&style=flat-square&logo=github&label=Tests
 [link-ghactions]: https://github.com/llaumgui/mw-auth-flarum/actions

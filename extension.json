@@ -1,6 +1,6 @@
  {
 	"name": "AuthFlarum",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"author": [
 		"Guillaume Kulakowski"
 	],
@@ -8,7 +8,7 @@
 	"descriptionmsg": "authflarum-desc",
 	"type": "other",
 	"requires": {
-		"MediaWiki": ">= 1.36.0"
+		"MediaWiki": ">= 1.43.0"
 	},
 	"license-name": "GPL-2.0-or-later",
 	"ConfigRegistry": {
@@ -54,10 +54,10 @@
 			"public": true,
 			"value": 100
 		},
-		"AuthFlarumAutoCreateNeedGroup": {
-			"description": "Need Flarum user in a specific group to allow auto creation of MediaWiki account.",
+		"AuthFlarumEnable2FA": {
+			"description": "Enable two-factor authentication support for Flarum instance with 2FA.",
 			"public": true,
-			"value": 0
+			"value": false
 		}
 	},
 	"manifest_version": 2

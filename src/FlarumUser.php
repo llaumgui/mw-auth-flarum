@@ -60,12 +60,14 @@ class FlarumUser {
 	 *
 	 * @param string $username Flarum username
 	 * @param string $password Flarum password
+	 * @param string|null $twoFactorToken Flarum two-factor token
+	 *
 	 * @return FlarumUser
 	 */
-	public function __construct( string $username, string $password ) {
+	public function __construct( string $username, string $password, $twoFactorToken = null ) {
 		$this->id = MediaWikiServices::getInstance()
 									->getService( 'FlarumApiService' )
-									->connect( $username, $password );
+									->connect( $username, $password, $twoFactorToken );
 	}
 
 	/**

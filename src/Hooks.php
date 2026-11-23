@@ -50,6 +50,7 @@ class Hooks {
 	public static function onAuthChangeFormFields( $requests, $fieldInfo, &$formDescriptor, $action ) {
 		unset( $formDescriptor['linkcontainer'] );
 		unset( $formDescriptor['passwordReset'] );
+
 		$formDescriptor['authFlarum'] = [
 			'type' => 'info',
 			'raw' => true,

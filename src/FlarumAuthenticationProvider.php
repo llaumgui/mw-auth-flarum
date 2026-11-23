@@ -14,6 +14,7 @@ namespace AuthFlarum;
 use MediaWiki\Auth\AbstractPasswordPrimaryAuthenticationProvider;
 use MediaWiki\Auth\AuthenticationRequest;
 use MediaWiki\Auth\AuthenticationResponse;
+use MediaWiki\Auth\AuthManager;
 use MediaWiki\Auth\PasswordAuthenticationRequest;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\User\UserNameUtils;
@@ -41,6 +42,23 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 	 */
 	public function accountCreationType() {
 		return self::TYPE_CREATE;
+	}
+
+	/**
+	 * @param string $action
+	 * @param array $options
+	 * @return AuthenticationRequest[]
+	 */
+	public function getAuthenticationRequests( $action, array $options ) {
+		$enable2fa = MediaWikiServices::getInstance()
+					->getConfigFactory()
+					->makeConfig( 'AuthFlarum' )
+					->get( 'AuthFlarumEnable2FA' );
+		$requests = parent::getAuthenticationRequests( $action, $options );
+		if ( $action === AuthManager::ACTION_LOGIN && $enable2fa ) {
+			$requests[] = new TwoFactorTokenAuthenticationRequest();
+		}
+		return $requests;
 	}
 
 	/**
@@ -77,7 +95,15 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 			return AuthenticationResponse::newAbstain();
 		}
 
-		$this->flarumUser = new FlarumUser( $username, $req->password );
+		$twoFactorTokenReq = AuthenticationRequest::getRequestByClass(
+			$reqs,
+			TwoFactorTokenAuthenticationRequest::class
+		);
+		$twoFactorToken = $twoFactorTokenReq instanceof TwoFactorTokenAuthenticationRequest
+			? $twoFactorTokenReq->twoFactorToken
+			: null;
+
+		$this->flarumUser = new FlarumUser( $username, $req->password, $twoFactorToken );
 
 		if ( $this->flarumUser->exists() ) {
 				return AuthenticationResponse::newPass( $canonicalUsername );

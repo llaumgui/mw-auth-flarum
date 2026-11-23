@@ -43,7 +43,7 @@ class FlarumApiService {
 	private string $token = '';
 
 	/**
-	 * FlarumUser constructor.
+	 * FlarumApiService constructor.
 	 */
 	public function __construct() {
 		$this->flarumApiUri = MediaWikiServices::getInstance()
@@ -59,22 +59,28 @@ class FlarumApiService {
 	 *
 	 * @param string $username Flarum username
 	 * @param string $password Flarum password
+	 * @param string|null $twoFactorToken Flarum two-factor token
 	 * @return int Flarum user Uid
 	 */
-	public function connect( string $username, string $password ): int {
+	public function connect( string $username, string $password, $twoFactorToken = null ): int {
+		$form_params = [
+			'identification' => $username,
+			'password' => $password
+		];
+		if ( $twoFactorToken !== null ) {
+			$form_params['twoFactorToken'] = $twoFactorToken;
+		}
+
 		try {
 			$response = $this->guzzleClient->request( 'POST', $this->flarumApiUri . '/api/token', [
-					'form_params' => [
-						'identification' => $username,
-						'password' => $password
-					]
+				'form_params' => $form_params
 			] );
 		} catch ( GuzzleClientException $e ) {
 			// Pass Guzzle exception to use AuthenticationResponse::newAbstain();
 			return 0;
 		}
 
-		if ( $response->getStatusCode() !== 200	) {
+		if ( $response->getStatusCode() !== 200 ) {
 			return 0;
 		}
 		$json = FormatJson::decode( $response->getBody(), true );
