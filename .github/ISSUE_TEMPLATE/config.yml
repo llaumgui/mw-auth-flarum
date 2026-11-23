@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+    - name: Read the doc
+      url: https://github.com/llaumgui/mw-auth-flarum
+      about: Features, installation and providers.
