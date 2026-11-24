@@ -15,6 +15,11 @@ use MediaWiki\MediaWikiServices;
 /** @phpcs-require-sorted-array */
 return [
 	'FlarumApiService' => static function ( MediaWikiServices $services ): FlarumApiService {
-		return new FlarumApiService();
+		$flarumApiUri = $services->getConfigFactory()
+			->makeConfig( 'AuthFlarum' )
+			->get( 'AuthFlarumUri' );
+		$guzzleClient = $services->getService( 'HttpRequestFactory' )->createGuzzleClient();
+
+		return new FlarumApiService( $flarumApiUri, $guzzleClient );
 	}
 ];

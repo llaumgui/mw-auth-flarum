@@ -11,10 +11,8 @@
 
 namespace AuthFlarum;
 
-use FormatJson;
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\ClientException as GuzzleClientException;
-use MediaWiki\MediaWikiServices;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * FlarumUser class.
@@ -45,13 +43,9 @@ class FlarumApiService {
 	/**
 	 * FlarumApiService constructor.
 	 */
-	public function __construct() {
-		$this->flarumApiUri = MediaWikiServices::getInstance()
-							->getConfigFactory()
-							->makeConfig( 'AuthFlarum' )
-							->get( 'AuthFlarumUri' );
-		$this->guzzleClient = MediaWikiServices::getInstance()
-							->getService( 'HttpRequestFactory' )->createGuzzleClient();
+	public function __construct( string $flarumApiUri, GuzzleClient $guzzleClient ) {
+		$this->flarumApiUri = rtrim( $flarumApiUri, '/' );
+		$this->guzzleClient = $guzzleClient;
 	}
 
 	/**
@@ -75,7 +69,7 @@ class FlarumApiService {
 			$response = $this->guzzleClient->request( 'POST', $this->flarumApiUri . '/api/token', [
 				'form_params' => $form_params
 			] );
-		} catch ( GuzzleClientException $e ) {
+		} catch ( GuzzleException $e ) {
 			// Pass Guzzle exception to use AuthenticationResponse::newAbstain();
 			return 0;
 		}
@@ -83,7 +77,7 @@ class FlarumApiService {
 		if ( $response->getStatusCode() !== 200 ) {
 			return 0;
 		}
-		$json = FormatJson::decode( $response->getBody(), true );
+		$json = json_decode( (string)$response->getBody(), true );
 		$this->id = $json['userId'];
 		$this->token = $json['token'];
 
@@ -102,7 +96,7 @@ class FlarumApiService {
 				]
 		] );
 		if ( $response->getStatusCode() === 200	) {
-			$json = FormatJson::decode( $response->getBody(), true );
+			$json = json_decode( (string)$response->getBody(), true );
 
 			$userGroups = [];
 			foreach ( $json['data']['relationships']['groups']['data'] as $group ) {

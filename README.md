@@ -104,8 +104,12 @@ Install development dependencies and run the project checks:
 ```bash
 composer install
 composer test
+composer phpunit
 composer phan
 ```
+
+`composer phpunit` displays the code coverage summary and generates the HTML
+report in `coverage/index.html`.
 
 ## License
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	bootstrap="tests/phpunit/bootstrap.php"
+	cacheResult="false"
+	colors="true"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd">
+	<coverage processUncoveredFiles="true">
+		<include>
+			<file>src/FlarumApiService.php</file>
+			<file>src/Hooks.php</file>
+		</include>
+		<report>
+			<clover outputFile="coverage.xml"/>
+			<html outputDirectory="coverage"/>
+			<text outputFile="php://stdout" showUncoveredFiles="true"/>
+		</report>
+	</coverage>
+	<testsuites>
+		<testsuite name="AuthFlarum unit tests">
+			<directory>tests/phpunit/unit</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

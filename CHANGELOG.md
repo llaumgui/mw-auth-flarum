@@ -3,7 +3,7 @@
 ## 1.1.1 - Nov 24, 2026
 
 * 🚀 [[#6]](https://github.com/llaumgui/mw-auth-flarum/issues/6) Prevent to create an account if mail already exists
-
+* 🧪 Add units tests
 
 ## 1.1.0 (Flarum 2 & 2FA support) - Nov 23, 2026
 

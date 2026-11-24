@@ -22,18 +22,32 @@
 		"php": ">=8.3"
 	},
 	"require-dev": {
+		"guzzlehttp/guzzle": "^7.4",
 		"mediawiki/mediawiki-codesniffer": "52.0.2",
 		"mediawiki/mediawiki-phan-config": "0.20.0",
 		"mediawiki/minus-x": "2.0.1",
 		"php-parallel-lint/php-console-highlighter": "1.0.0",
-		"php-parallel-lint/php-parallel-lint": "1.4.0"
+		"php-parallel-lint/php-parallel-lint": "1.4.0",
+		"phpunit/phpunit": "^9.6"
+	},
+	"autoload": {
+		"psr-4": {
+			"AuthFlarum\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"AuthFlarum\\Tests\\": "tests/phpunit/unit/"
+		}
 	},
 	"scripts": {
 		"test": [
 			"vendor/bin/parallel-lint . --exclude node_modules --exclude vendor",
 			"vendor/bin/phpcs -p -s",
-			"vendor/bin/minus-x check ."
+			"vendor/bin/minus-x check .",
+			"@phpunit"
 		],
+		"phpunit": "XDEBUG_MODE=coverage phpunit -c phpunit.xml.dist",
 		"fix": [
 			"vendor/bin/minus-x fix .",
 			"vendor/bin/phpcbf"
