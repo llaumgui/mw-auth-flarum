@@ -8,5 +8,6 @@
 	"authflarum-two-factor-token-label": "Two-factor authentication code, if enabled on forum",
 	"authflarum-change-not-allowed": "These changes are not allowed.",
 	"authflarum-autocreate-fail": "Failed to create an account from the forum.",
-	"authflarum-autocreate-no-enough": "You do not have enough forum post to login."
+	"authflarum-autocreate-no-enough": "You do not have enough forum post to login.",
+	"authflarum-autocreate-email-in-use": "This email address is already associated with a wiki account."
 }

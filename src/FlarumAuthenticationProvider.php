@@ -33,6 +33,25 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 	 * @var FlarumUser
 	 */
 	private FlarumUser $flarumUser;
+	/**
+	 * Whether 2FA is enabled.
+	 * @var bool
+	 */
+	private bool $authFlarumEnable2FA;
+	/**
+	 * Whether to automatically create accounts.
+	 * @var bool
+	 */
+	private bool $authFlarumAutoCreate;
+
+	public function __construct( array $params = [] ) {
+		// Get configuration for AuthFlarum
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'AuthFlarum' );
+		$this->authFlarumEnable2FA = $config->get( 'AuthFlarumEnable2FA' );
+		$this->authFlarumAutoCreate = $config->get( 'AuthFlarumAutoCreate' );
+
+		parent::__construct( $params );
+	}
 
 	/**
 	 * Automatically create an account when asked to log in a
@@ -50,12 +69,8 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 	 * @return AuthenticationRequest[]
 	 */
 	public function getAuthenticationRequests( $action, array $options ) {
-		$enable2fa = MediaWikiServices::getInstance()
-					->getConfigFactory()
-					->makeConfig( 'AuthFlarum' )
-					->get( 'AuthFlarumEnable2FA' );
 		$requests = parent::getAuthenticationRequests( $action, $options );
-		if ( $action === AuthManager::ACTION_LOGIN && $enable2fa ) {
+		if ( $action === AuthManager::ACTION_LOGIN && $this->authFlarumEnable2FA ) {
 			$requests[] = new TwoFactorTokenAuthenticationRequest();
 		}
 		return $requests;
@@ -166,11 +181,7 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 	 * @return static
 	 */
 	public function testUserForCreation( $user, $autocreate, array $options = [] ) {
-		$authFlarumAutoCreate = MediaWikiServices::getInstance()
-							->getConfigFactory()
-							->makeConfig( 'AuthFlarum' )
-							->get( 'AuthFlarumAutoCreate' );
-		if ( $autocreate && $authFlarumAutoCreate ) {
+		if ( $autocreate && $this->authFlarumAutoCreate ) {
 			if ( !$this->flarumUser->exists() ) {
 				return StatusValue::newFatal( new Message( 'authflarum-autocreate-fail' ) );
 			}
@@ -178,8 +189,23 @@ class FlarumAuthenticationProvider extends AbstractPasswordPrimaryAuthentication
 				return StatusValue::newFatal( new Message( 'authflarum-autocreate-no-enough' ) );
 			}
 
+			// Check if mail is available
+			$email = $this->flarumUser->getEmail();
+			if ( $email !== '' ) {
+				$usersWithEmail = MediaWikiServices::getInstance()
+					->getUserIdentityLookup()
+					->newSelectQueryBuilder()
+					->join( 'user', null, [ 'actor_user=user_id' ] )
+					->where( [ 'user_email' => $email ] )
+					->caller( __METHOD__ )
+					->fetchUserIdentities();
+				foreach ( $usersWithEmail as $existingUser ) {
+					return StatusValue::newFatal( new Message( 'authflarum-autocreate-email-in-use' ) );
+				}
+			}
+
 			// Create MW user
-			$user->setEmail( $this->flarumUser->getEmail() );
+			$user->setEmail( $email );
 			$user->setRealName( $this->flarumUser->getUsername() );
 			$user->setEmailAuthenticationTimestamp( ConvertibleTimestamp::now() );
 			$user->saveSettings();

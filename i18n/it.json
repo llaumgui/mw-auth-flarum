@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"llaumgui"
+		]
+	},
+	"authflarum-connection-form-label": "La connessione a questo wiki utilizza le credenziali del forum. È quindi necessario registrarsi prima sul forum per poter accedere.",
+	"authflarum-two-factor-token-label": "Codice valido di autenticazione a due fattori, se attivato sul forum",
+	"authflarum-change-not-allowed": "Queste modifiche non sono consentite.",
+	"authflarum-autocreate-fail": "Creazione dell'account dal forum non riuscita.",
+	"authflarum-autocreate-no-enough": "Non hai abbastanza messaggi sul forum per poter accedere.",
+	"authflarum-autocreate-email-in-use": "Questo indirizzo email è già associato a un account del wiki."
+}
