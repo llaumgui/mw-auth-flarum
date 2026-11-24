@@ -19,7 +19,7 @@
 		"source": "https://github.com/llaumgui/mw-auth-flarum"
 	},
 	"require": {
-		"php": ">=8.3"
+		"php": ">=8.4"
 	},
 	"require-dev": {
 		"guzzlehttp/guzzle": "^7.4",
