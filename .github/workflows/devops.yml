@@ -86,7 +86,7 @@ jobs:
       with:
         fetch-depth: 0 # Disabling shallow clones is recommended for improving the relevancy of reporting
     - name: Download Sonar coverage report
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         name: sonar-php-coverage
     # https://docs.sonarsource.com/sonarqube/latest/project-administration/analysis-scope/#sonarqube-respects-ignored-files
