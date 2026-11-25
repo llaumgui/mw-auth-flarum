@@ -22,7 +22,7 @@
 		"php": ">=8.4"
 	},
 	"require-dev": {
-		"guzzlehttp/guzzle": "^7.4",
+		"guzzlehttp/guzzle": "^8.5",
 		"mediawiki/mediawiki-codesniffer": "52.0.2",
 		"mediawiki/mediawiki-phan-config": "0.20.0",
 		"mediawiki/minus-x": "2.0.1",
