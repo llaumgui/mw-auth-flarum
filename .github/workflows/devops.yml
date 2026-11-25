@@ -42,7 +42,7 @@ jobs:
     - name: Run test suite
       run: composer run-script test
     - name: Upload Sonar coverage report
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: sonar-php-coverage
         path: coverage.xml
